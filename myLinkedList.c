@@ -48,17 +48,22 @@ void print_list(node * start) {
   return insert(next_song,next_song->prev,name,artist);
 }*/
 
-node * order_insert(node * this_song, char * name, char * artist) {
-  node * song = this_song;
-  while (song->next) {
-    if (strcmp(song->artist, artist) >= 0) {
-      if (strcmp(song->name, name) > 0) {
-        return insert(song, song->next, name, artist);
+/*
+* Insert the song at the correct place in the list of songs. 
+*/
+node * insert_order(node * this_song, char * name, char * artist) {
+  node * song = this_song; //copy to iterate down and list to find the right place
+  while (song->next) { //should go through until song is the last node in list
+    if (strcmp(song->artist, artist) >= 0) { //curr song's artist is greater than this artist
+      if (strcmp(song->name, name) > 0) { //curr song's name is greater than this name
+        insert(song->next, song, name, artist); //put between song->next and curr song
+        return this_song; //return head of given list
       }
     }
-    song = song->next;
+    song = song->next; //IFs didn't work, send the next song in
   }
-  return insert(NULL, this_song, name, artist);
+  insert(NULL, song, name, artist); //all the songs didn't work, make last of the list
+  return this_song; //always return head of list
 }
 
 int main() {
@@ -75,7 +80,7 @@ node * head=NULL;
   head = insert_front(head, c, d);
   printf("Head now has a song called \'fish\' by \'banana\':\n");
   print_list(head);
-  head=order_insert(head,e,f);
+  head=insert_order(head,e,f);
   printf("Head now has a song called \'gorilla\' by \'gorillaz\':\n");
   //head=insert_order(head,c,d);
   //head=insert_order(head,c,b);
