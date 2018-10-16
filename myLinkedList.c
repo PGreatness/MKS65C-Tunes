@@ -15,7 +15,13 @@ node * insert(node * next_song, node * prev_song, char * name, char * artist) {
     strcpy(new_song->name, name); //set the name of the song
     strcpy(new_song->artist, artist); //set the name of the artist
     new_song->prev = prev_song;
+    if (prev_song) {
+      prev_song->next = new_song;
+    }
     new_song->next = next_song; //song is the beginning of the list
+    if (next_song) {
+      next_song->prev = new_song;
+    }
     song_count++; //new song has been added, increase song count
     return new_song; //return this song
 }
@@ -29,7 +35,7 @@ void print_list(node * start) {
         start = start->next;
     }
 }
-node * insert_order(node * next_song, char * name, char * artist){
+/*node * insert_order(node * next_song, char * name, char * artist){
   node * new_song = malloc(sizeof(node)); //allocate certain number of memory for each node
   strcpy(new_song->name, name); //set the name of the song
   strcpy(new_song->artist, artist); //set the name of the artist
@@ -40,6 +46,19 @@ node * insert_order(node * next_song, char * name, char * artist){
     next_song=next_song->next;
   }
   return insert(next_song,next_song->prev,name,artist);
+}*/
+
+node * order_insert(node * this_song, char * name, char * artist) {
+  node * song = this_song;
+  while (song->next) {
+    if (strcmp(song->artist, artist) >= 0) {
+      if (strcmp(song->name, name) > 0) {
+        return insert(song, song->next, name, artist);
+      }
+    }
+    song = song->next;
+  }
+  return insert(NULL, this_song, name, artist);
 }
 
 int main() {
@@ -50,8 +69,14 @@ node * head=NULL;
   char d[256]="dogs";
   char e[256]="gorilla";
   char f[256]="gorillaz";
+  printf("Head at NULL:\n");
+  print_list(head);
   head=insert_front(head,a,b);
-  head=insert_order(head,e,f);
+  head = insert_front(head, c, d);
+  printf("Head now has a song called \'fish\' by \'banana\':\n");
+  print_list(head);
+  head=order_insert(head,e,f);
+  printf("Head now has a song called \'gorilla\' by \'gorillaz\':\n");
   //head=insert_order(head,c,d);
   //head=insert_order(head,c,b);
   print_list(head);
