@@ -54,6 +54,9 @@ node * insert_order(node * this_song, char * name, char * artist) {
   insert(NULL, song, name, artist); //all the songs didn't work, make last of the list
   return this_song; //always return head of list
 }
+/*
+* Searches for song with designated name and artist.
+*/
 node * search(node * start, char * name, char * artist) {
     while (start) {
         if (strcmp(start->name, name) == 0 && strcmp(start->artist, artist) == 0) {
@@ -65,6 +68,9 @@ node * search(node * start, char * name, char * artist) {
     printf("Artist and name not in list");
     return NULL;
 }
+/*
+* Searches for first song with artist.
+*/
 node * first_song_by_artist(node *start, char * artist) { 
   while(start){
     if(strcmp(start->artist,artist)==0){
@@ -76,6 +82,9 @@ node * first_song_by_artist(node *start, char * artist) {
     printf("Artist not in list");
     return NULL;
 }
+/*
+* Randomly chooses a song from list.
+*/
 node * random_song(node * start) {
     unsigned int seed = time(NULL);
     srand(seed);
@@ -86,26 +95,29 @@ node * random_song(node * start) {
     }
     return start;
 }
+/*
+* Removes song with designated name and artist.
+*/
 node * delete_song(node * start, char * name, char * artist) {
-  node * prev;
-   node * removed = start;
-   if(removed!=NULL && strcmp(removed->name, name) == 0 && strcmp(removed->artist, artist) == 0){
-     start=removed->next;
-     free(removed);
+  node * first = start;
+   node * removed=search(start,name,artist);
+   node * prev_song=removed->prev;
+   if(first!=NULL && strcmp(first->name, name) == 0 && strcmp(first->artist, artist) == 0){//shifts head down if head is to be removed
+     start=first->next;
+     free(first);
      return start;
    }
-    while (removed != NULL && strcmp(removed->name, name) != 0 && strcmp(removed->artist, artist) != 0) {
-        prev=removed;
-        removed = removed->next;
-    }
     if(removed==NULL){//song not in list
         printf("Artist and name not in list");
       return start;
     }
-    prev->next = removed->next;
+    prev_song->next = removed->next;
     free(removed);
     return start;
 }
+/*
+* Deletes the entire playlist.
+*/
 node * delete_list(node * start) {
   node * song_killer;
     while (start!=NULL) {
