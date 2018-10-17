@@ -4,7 +4,7 @@
 #include <string.h>
 //construct a struct called song_node and define it as "node"
 
-typedef struct song_node { 
+typedef struct song_node {
     char name[100];
     char artist[100];
     struct song_node *next;
@@ -40,7 +40,7 @@ node * insert_order(node* song, char * name, char * artist) {
     if(song ==NULL || strcmp(artist,song->artist)<0){
       return insert_front(song,name,artist);
     }
-    node * placeholder=malloc(sizeof(node));;
+    node * placeholder=malloc(sizeof(node));
     node * start = song;
     while(song->next!=NULL && strcmp(artist,song->artist)>0){
       placeholder=song;
@@ -130,4 +130,3 @@ int main(void) {
   //head=insert_order(head,c,b);
   print_list(head);
 }
-
