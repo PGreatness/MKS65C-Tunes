@@ -2,8 +2,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
-#include "myMusicLibrary.h"
-
 
 node * table[27]; //table, required
 char arr[27]="ABCDEFGHIJKLMNOPQRSTUVWXYZ!";
@@ -28,10 +26,13 @@ node * insert_front(node * next_song, char * name, char * artist) {
   return insert(next_song, NULL, name, artist);
 }
 void print_list(node * start) {
+  for(int i=0;i<song_count;i++){
+    node *start=table[i];
     while (start) {
         printf("[ %s ]\tby: [ %s ]\n", start->name, start->artist);
         start = start->next;
     }
+  }
 }
 
 /*
@@ -51,10 +52,19 @@ node * insert_order(node * this_song, char * name, char * artist) {
   insert(NULL, song, name, artist); //all the songs didn't work, make last of the list
   return this_song; //always return head of list
 }
+node * insert_into_table(char * name, char* artist){//might not work
+  char * makeint = strchr(arr,artist[0]);
+  int index=makeint-arr+1
+  node * start=table[index];
+  return insert_order(start,name,artist);
+}
 /*
 * Searches for song with designated name and artist.
 */
-node * search(node * start, char * name, char * artist) {
+node * search( char * name, char * artist) {
+char * makeint=strchr(arr,artist[0]);
+  int index= makeint-arr+1;
+  node *start = table[index];
     while (start) {
         if (strcmp(start->name, name) == 0 && strcmp(start->artist, artist) == 0) {
             return start;
@@ -69,9 +79,8 @@ node * search(node * start, char * name, char * artist) {
 * Searches for songs with artist.
 */
 void song_by_artist(char * artist) { 
-  char * makeint;
-  makeint=strchr(arr,artist[1]);
-  int index= makeint-artist+1;
+  char * makeint=strchr(arr,artist[0]);
+  int index= makeint-arr+1;
   node *start = table[index];
   while(start){
     if(strcmp(start->artist,artist)==0){
@@ -81,22 +90,29 @@ void song_by_artist(char * artist) {
   }
 }
 /*
-* Randomly chooses a song from list.
+* Randomly chooses and prints song from list.
 */
-node * random_song(node * start) {
+node * shuffle() {
     unsigned int seed = time(NULL);
     srand(seed);
+    for(int i = 0; i< 5 ; i++){
+    int random = rand() %27;
     int song_number = rand() % song_count;
     int i = 0;
+    node * start = table[random];
     for (; i < song_number; i++) {
         start = start->next;
     }
-    return start;
+    printf("Now playing [%s] by [%s]\n",start->name, start->artist);
+    }
 }
 /*
 * Removes song with designated name and artist.
 */
-node * delete_song(node * start, char * name, char * artist) {
+node * delete_song(char * name, char * artist) {
+   char * makeint = strchr(arr,artist[0]);
+   int index=makeint-arr+1
+  node * start=table[index];
   node * first = start;
    node * removed=search(start,name,artist);
    node * prev_song=removed->prev;
@@ -116,13 +132,16 @@ node * delete_song(node * start, char * name, char * artist) {
 /*
 * Deletes the entire playlist.
 */
-node * delete_list(node * start) {
-  node * song_killer;
+node * delete_list() {
+  node* start;
+  for(int i=0;i<song_count;i++){
+    start= table[i];
+    node * song_killer;
     while (start!=NULL) {
     song_killer=start;
 	  start=start->next;
 	  free(song_killer);
+    }
   }
   return start;
 }
-
