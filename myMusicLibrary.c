@@ -75,6 +75,14 @@ char * makeint=strchr(arr,artist[0]);
     printf("Artist and name not in list");
     return NULL;
 }
+void print_letter(char artist){
+  char * makeint=strchr(arr,artist);
+  int index= makeint-arr+1;
+  node *start = table[index];
+  while(start){
+    printf("[%s] by %s\n", start->name, start->artist);
+  }
+}
 /*
 * Searches for songs with artist.
 */
