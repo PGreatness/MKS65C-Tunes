@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include "myMusicLibrary.h"
 
 node * table[27]; //table, required
 char arr[27]="ABCDEFGHIJKLMNOPQRSTUVWXYZ!";
@@ -25,7 +26,7 @@ node * insert(node * next_song, node * prev_song, char * name, char * artist) {
 node * insert_front(node * next_song, char * name, char * artist) {
   return insert(next_song, NULL, name, artist);
 }
-void print_list(node * start) {
+void print_list() {
   for(int i=0;i<song_count;i++){
     node *start=table[i];
     while (start) {
@@ -54,8 +55,8 @@ node * insert_order(node * this_song, char * name, char * artist) {
 }
 node * insert_into_table(char * name, char* artist){//might not work
   char * makeint = strchr(arr,artist[0]);
-  int index=makeint-arr+1
-  node * start=table[index];
+  int index=makeint-arr+1;
+  node * start = table[index];
   return insert_order(start,name,artist);
 }
 /*
@@ -119,10 +120,10 @@ node * shuffle() {
 */
 node * delete_song(char * name, char * artist) {
    char * makeint = strchr(arr,artist[0]);
-   int index=makeint-arr+1
+   int index=makeint-arr+1;
   node * start=table[index];
   node * first = start;
-   node * removed=search(start,name,artist);
+   node * removed=search(name,artist);
    node * prev_song=removed->prev;
    if(first!=NULL && strcmp(first->name, name) == 0 && strcmp(first->artist, artist) == 0){//shifts head down if head is to be removed
      start=first->next;
@@ -153,3 +154,4 @@ node * delete_list() {
   }
   return start;
 }
+

@@ -10,11 +10,14 @@ typedef struct song_node {
 
 node * insert(node * next_song, node * prev_song, char * name, char * artist);
 node * insert_front(node * next_song, char * name, char * artist);
-void print_list(node * start);
+void print_list();
 node * insert_order(node * this_song, char * name, char * artist);
-node * search(node * start, char * name, char * artist);
+node * search(char * name, char * artist);
 void song_by_artist(char * artist);
-node * random_song(node * start);
-node * delete_song(node * start, char * name, char * artist);
-node * delete_list(node * start);
+node * shuffle();
+node * delete_song(char * name, char * artist);
+node * delete_list();
+node * insert_into_table(char * name, char * artist);
+void print_letter(char artist);
 #endif
+

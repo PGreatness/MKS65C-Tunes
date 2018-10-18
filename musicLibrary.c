@@ -23,7 +23,7 @@ node * head=NULL;
   //head=insert_order(head,c,d);
   //head=insert_order(head,c,b);
   print_list(head);
-  printf("Is \'fish\' by \'banana\' in this list?\n Yes \'%s\' by \'%s\'\n",search(head, a,b)->name,search(head, a,b)->artist);
+  printf("Is \'fish\' by \'banana\' in this list?\n Yes \'%s\' by \'%s\'\n",search(a,b)->name,search(a,b)->artist);
   head=insert_order(head,e,b);
   printf("Find me songs by \'banana\'\n Finding songs....\n");
   //song_by_artist(head,b);
