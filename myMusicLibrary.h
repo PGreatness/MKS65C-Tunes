@@ -14,7 +14,7 @@ void print_list();
 node * insert_order(node * this_song, char * name, char * artist);
 node * search(char * name, char * artist);
 void song_by_artist(char * artist);
-node * shuffle();
+void shuffle();
 node * delete_song(char * name, char * artist);
 node * delete_list();
 node * insert_into_table(char * name, char * artist);

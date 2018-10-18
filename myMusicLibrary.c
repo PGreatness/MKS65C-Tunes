@@ -101,7 +101,7 @@ void song_by_artist(char * artist) {
 /*
 * Randomly chooses and prints song from list.
 */
-node * shuffle() {
+void shuffle() {
     unsigned int seed = time(NULL);
     srand(seed);
     for(int i = 0; i< 5 ; i++){
