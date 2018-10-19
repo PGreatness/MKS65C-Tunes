@@ -4,7 +4,7 @@
 #include <time.h>
 #include "myMusicLibrary.h"
 
-node * table[27]; //table, required
+node * table[27] = {0}; //table, required
 char arr[27]="ABCDEFGHIJKLMNOPQRSTUVWXYZ!";
 int song_count = 0; //total number of songs, may be needed
 node * insert(node * next_song, node * prev_song, char * name, char * artist) {
@@ -28,10 +28,12 @@ node * insert_front(node * next_song, char * name, char * artist) {
 }
 void print_list() {
   for(int i=0;i<song_count;i++){
+    if (table[i]!=NULL){
     node *start=table[i];
     while (start) {
         printf("[ %s ]\tby: [ %s ]\n", start->name, start->artist);
         start = start->next;
+    }
     }
   }
 }
@@ -53,11 +55,11 @@ node * insert_order(node * this_song, char * name, char * artist) {
   insert(NULL, song, name, artist); //all the songs didn't work, make last of the list
   return this_song; //always return head of list
 }
-node * insert_into_table(char * name, char* artist){//might not work
+void insert_into_table(char * name, char* artist){//might not work
   char * makeint = strchr(arr,artist[0]);
   int index=makeint-arr+1;
   node * start = table[index];
-  return insert_order(start,name,artist);
+  table[index]=insert_order(start,name,artist);
 }
 /*
 * Searches for song with designated name and artist.
@@ -118,7 +120,7 @@ void shuffle() {
 /*
 * Removes song with designated name and artist.
 */
-node * delete_song(char * name, char * artist) {
+void delete_song(char * name, char * artist) {
    char * makeint = strchr(arr,artist[0]);
    int index=makeint-arr+1;
   node * start=table[index];
@@ -141,7 +143,7 @@ node * delete_song(char * name, char * artist) {
 /*
 * Deletes the entire playlist.
 */
-node * delete_list() {
+void delete_list() {
   node* start;
   for(int i=0;i<song_count;i++){
     start= table[i];

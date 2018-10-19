@@ -7,7 +7,6 @@ typedef struct song_node {
   char artist[256];
   struct song_node * next;
 } node;
-
 node * insert(node * next_song, node * prev_song, char * name, char * artist);
 node * insert_front(node * next_song, char * name, char * artist);
 void print_list();
@@ -15,9 +14,9 @@ node * insert_order(node * this_song, char * name, char * artist);
 node * search(char * name, char * artist);
 void song_by_artist(char * artist);
 void shuffle();
-node * delete_song(char * name, char * artist);
-node * delete_list();
-node * insert_into_table(char * name, char * artist);
+void delete_song(char * name, char * artist);
+void delete_list();
+void insert_into_table(char * name, char * artist);
 void print_letter(char artist);
 #endif
 
